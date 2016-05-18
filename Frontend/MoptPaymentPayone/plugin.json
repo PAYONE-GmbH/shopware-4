@@ -1,0 +1,27 @@
+{
+    "label": {
+        "de": "%%NAME%%",
+        "en": "%%NAME%%"
+    },
+    "author": "FATCHIP GmbH",
+    "copyright": "Copyright © 2015, FATCHIP GmbH",
+    "link": "http://www.fatchip.de/",
+    "support": "support@fatchip.de",    
+    "currentVersion": "%%VERSION%%_%%REVISION%%",
+    "solution_name": "fatchip",
+    "changelogs": {
+        "de": {
+            "2.7.3": "Security Bugfixes"
+        },
+        "en": {
+            "2.7.3": "Security Bugfixes"           
+        }
+    },
+
+    "compatibility": {
+        "minimumVersion": "4.0.0",
+        "maximumVersion": null,
+        "blacklist": [
+        ]
+    }
+}
