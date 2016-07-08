@@ -35,23 +35,58 @@ class Payone_Api_Request_Preauthorization extends Payone_Api_Request_Authorizati
     protected $request = Payone_Api_Enum_RequestType::PREAUTHORIZATION;
     protected $api_version = null;
     protected $cashtype = null;
+    protected $financingtype = null;
+    protected $birthday = null;
     
-    function getApiVersion() {
+    public function getApiVersion()
+    {
         return $this->api_version;
     }
 
-    function getCashtype() {
+    public function getCashtype()
+    {
         return $this->cashtype;
     }
 
-    function setApiVersion($api_version) {
+    public function setApiVersion($api_version)
+    {
         $this->api_version = $api_version;
     }
 
-    function setCashtype($cashtype) {
+    public function setCashtype($cashtype)
+    {
         $this->cashtype = $cashtype;
     }
 
+    /**
+     * @param string $financingtype
+     */
+    public function setFinancingtype($financingtype)
+    {
+        $this->financingtype = $financingtype;
+    }
 
+    /**
+     * @return string
+     */
+    public function getFinancingtype()
+    {
+        return $this->financingtype;
+    }
 
+    /**
+     * @param string $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
 }

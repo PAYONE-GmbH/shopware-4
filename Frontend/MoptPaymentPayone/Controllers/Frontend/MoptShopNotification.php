@@ -32,7 +32,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * index action called by Payone platform to transmit transaction status updates
-     * 
+     *
      * @return mixed
      */
     public function indexAction()
@@ -69,6 +69,14 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
         $validIps = $moptConfig->getValidIPs();
 
         $service = $this->moptPayoneInitTransactionService($key, $validIps);
+        
+        // enable support for proxied requests and load balancers for IP Validation
+        $validators = $service->getValidators();
+        foreach ($validators as $validator) {
+            if ($validator instanceof Payone_TransactionStatus_Validator_Ip) {
+                $validator->getConfig()->setValue('validator/proxy/enabled', 1);
+            }
+        }
 
         try {
             $response = $service->handleByPost();
@@ -121,7 +129,9 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
         if (!$orderIsCorrupted) {
             $mappedShopwareState = $this->moptPayone__helper->getMappedShopwarePaymentStatusId(
-                    $config, $request->getParam('txaction'));
+                $config,
+                $request->getParam('txaction')
+            );
 
             $this->savePaymentStatus($transactionId, $order['temporaryID'], $mappedShopwareState);
         }
@@ -135,7 +145,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * get transaction service, validate key and ip addresses
-     * 
+     *
      * @param string $key
      * @param array $validIps
      * @return service
@@ -154,7 +164,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * forward request to configured urls
-     * 
+     *
      * @param array $payoneConfig
      * @param array $rawPost
      * @param string $payoneStatus
@@ -185,7 +195,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * get plugin bootstrap
-     * 
+     *
      * @return plugin
      */
     public function Plugin()
@@ -195,7 +205,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * try to load order via transaction id
-     * 
+     *
      * @param string $transactionId
      * @return order
      */
@@ -212,7 +222,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * try to load order via order nr
-     * 
+     *
      * @param string $orderNumber
      * @return order
      */
@@ -229,7 +239,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * restore session from Id
-     * 
+     *
      * @param string $customParam
      */
     protected function restoreSession($customParam)
@@ -243,7 +253,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * determine wether order is already finished
-     * 
+     *
      * @param string $transactionId
      * @param string $paymentReference
      * @return boolean
@@ -266,7 +276,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
     /**
      * determine wether order is already finished
      * additional check for frontend api creditcard payments
-     * 
+     *
      * @param string $paymentReference
      * @param string $transactionId
      * @return boolean
@@ -289,7 +299,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * update transaction id, needed for frontend api creditcard payments
-     * 
+     *
      * @param string $orderNumber
      * @param string $transactionId
      * @return boolean
@@ -305,7 +315,7 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
 
     /**
      * persist tx-status information
-     * 
+     *
      * @param array $order
      * @param array $attributeData
      * @param bool $saveOrderHash
@@ -322,19 +332,18 @@ class Shopware_Controllers_Frontend_MoptShopNotification extends Shopware_Contro
         $sql = 'UPDATE s_order_attributes SET mopt_payone_status=?, mopt_payone_sequencenumber=?, '
                 . 'mopt_payone_payment_reference=? ';
         
-        if($saveOrderHash) {
-          $sql = $sql . ' , mopt_payone_order_hash=? ';
-          $params[] = $attributeData['mopt_payone_order_hash'];
+        if ($saveOrderHash) {
+            $sql = $sql . ' , mopt_payone_order_hash=? ';
+            $params[] = $attributeData['mopt_payone_order_hash'];
         }
         
-        if($saveClearingData) {
-          $sql = $sql . ' , mopt_payone_clearing_data=? ';
-          $params[] = $attributeData['mopt_payone_clearing_data'];
+        if ($saveClearingData) {
+            $sql = $sql . ' , mopt_payone_clearing_data=? ';
+            $params[] = $attributeData['mopt_payone_clearing_data'];
         }
         $sql = $sql . ' WHERE orderID=?';
         $params[] = $order['id'];
         
         Shopware()->Db()->query($sql, $params);
     }
-
 }

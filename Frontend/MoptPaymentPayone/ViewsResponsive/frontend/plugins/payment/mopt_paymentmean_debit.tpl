@@ -43,6 +43,7 @@
         </div>
     </div>
 
+  {if $moptPaymentConfigParams.moptShowBic}
     <div class="form-group {if $error_flags.mopt_payone__debit_bic}instyle_error{/if}">
         <label for="mopt_payone__debit_bic" class="col-lg-4 control-label">
           {s namespace='frontend/MoptPaymentPayone/payment' name='bankBIC'}BIC{/s}
@@ -53,13 +54,15 @@
                    value="{$form_data.mopt_payone__debit_bic|escape}" class="form-control"/>
         </div>
     </div>
+  {/if}
+    <input class="is--hidden" type="hidden" name="moptPaymentData[mopt_payone__debit_showbic]" id="moptPaymentData[mopt_payone__debit_showbic]" value="{$moptPaymentConfigParams.moptShowBic}">   
+     
   
   {if $moptPaymentConfigParams.moptShowAccountnumber}
     <p class="description">
       {s namespace='frontend/MoptPaymentPayone/payment' name='debitDescription'}
     oder bezahlen Sie wie gewohnt mit Ihren bekannten Kontodaten(nur für Deutsche Kontoverbindungen).{/s}
     </p>
-  
     <div class="form-group {if $error_flags.mopt_payone__debit_bankaccount}has-error{/if}">
         <label for="mopt_payone__debit_bankaccount" class="col-lg-4 control-label">
           {s namespace='frontend/MoptPaymentPayone/payment' name='bankAccountNumber'}Kontonummer{/s}

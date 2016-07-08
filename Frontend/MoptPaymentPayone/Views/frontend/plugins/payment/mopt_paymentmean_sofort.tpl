@@ -17,6 +17,7 @@
              class="text {if $error_flags.mopt_payone__sofort_bankcode}instyle_error{/if}" />
     </p>
   {else}
+      {if $moptPaymentConfigParams.moptShowSofortIbanBic}
     <p class="none">
       <label for="mopt_payone__sofort_iban">
         {s namespace='frontend/MoptPaymentPayone/payment' name='bankIBAN'}IBAN{/s}
@@ -33,6 +34,8 @@
              value="{$form_data.mopt_payone__sofort_bic|escape}" 
              class="text {if $error_flags.mopt_payone__sofort_bic}instyle_error{/if}" />
     </p>
+    {/if}
+  <input class="is--hidden" type="hidden" name="moptPaymentData[mopt_payone__sofort_show_sofort_iban_bic]" id="moptPaymentData[mopt_payone__sofort_show_sofort_iban_bic]" value="{$moptPaymentConfigParams.moptShowSofortIbanBic}">     
   {/if}
   <input type="hidden" name="moptPaymentData[mopt_payone__onlinebanktransfertype]" 
          type="text" id="mopt_payone__onlinebanktransfertype" value="PNT"/>
@@ -54,6 +57,7 @@
       $('input[type="radio"]:not(:checked)').trigger('change');
     });
   {else}
+    {if $moptPaymentConfigParams.moptShowSofortIbanBic}
     $('#mopt_payone__sofort_iban').focus(function() {
       $('#payment_mean{$payment_mean.id}').attr('checked',true);
       $('#moptSavePayment{$payment_mean.id}').slideDown();
@@ -65,6 +69,7 @@
       $('#moptSavePayment{$payment_mean.id}').slideDown();
       $('input[type="radio"]:not(:checked)').trigger('change');
     });
+    {/if}  
   {/if}
       
   $(document).ready(function() {
@@ -108,6 +113,7 @@
           formNotValid = true;
       }
      {else}
+       {if $moptPaymentConfigParams.moptShowSofortIbanBic}
     $('#mopt_payone__sofort_iban').removeClass('instyle_error');
     $('#mopt_payone__sofort_bic').removeClass('instyle_error');
          
@@ -123,9 +129,10 @@
               $('#mopt_payone__sofort_bic').parent().after('<div class="error moptFormError">{s namespace="frontend/MoptPaymentPayone/errorMessages" name="ibanbicFormField"}Dieses Feld darf nur Großbuchstaben und Ziffern enthalten{/s}</div>');
               formNotValid = true;
       }
+        {/if}
       {/if}
 
-              if (formNotValid)
+    if (formNotValid)
       {
       return false;
       }

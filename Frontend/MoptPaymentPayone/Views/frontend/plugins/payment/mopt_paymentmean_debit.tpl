@@ -32,6 +32,7 @@
            value="{$form_data.mopt_payone__debit_iban|escape}" 
            class="text {if $error_flags.mopt_payone__debit_iban}instyle_error{/if}" />
   </p>
+   {if $moptPaymentConfigParams.moptShowBic}
   <p class="none">
     <label for="mopt_payone__debit_bic">
       {s namespace='frontend/MoptPaymentPayone/payment' name='bankBIC'}BIC{/s}
@@ -40,6 +41,8 @@
            value="{$form_data.mopt_payone__debit_bic|escape}" 
            class="text {if $error_flags.mopt_payone__debit_bic}instyle_error{/if}" />
   </p>
+  {/if}
+   <input class="is--hidden" type="hidden" name="moptPaymentData[mopt_payone__debit_showbic]" id="moptPaymentData[mopt_payone__debit_showbic]" value="{$moptPaymentConfigParams.moptShowBic}">   
   {if $moptPaymentConfigParams.moptShowAccountnumber}
   <p class="description">
     {s namespace='frontend/MoptPaymentPayone/payment' name='debitDescription'}
@@ -70,13 +73,14 @@
     $('#moptSavePayment{$payment_mean.id}').slideDown();
     $('input[type="radio"]:not(:checked)').trigger('change');
   });
-  
+
+ {if $moptPaymentConfigParams.moptShowBic} 
   $('#mopt_payone__debit_bic').focus(function() {
     $('#payment_mean{$payment_mean.id}').attr('checked',true);
     $('#moptSavePayment{$payment_mean.id}').slideDown();
     $('input[type="radio"]:not(:checked)').trigger('change');
   });
-  
+  {/if}  
   $('#mopt_payone__debit_bankaccountholder').focus(function() {
     $('#payment_mean{$payment_mean.id}').attr('checked',true);
     $('#moptSavePayment{$payment_mean.id}').slideDown();

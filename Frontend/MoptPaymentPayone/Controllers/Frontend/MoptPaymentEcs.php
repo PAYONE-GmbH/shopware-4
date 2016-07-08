@@ -33,14 +33,19 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
         $amount = $this->getBasketAmount($userData);
 
         $expressCheckoutRequestData = $paramBuilder->buildPayPalExpressCheckout(
-                $paymentId, $this->Front()->Router(), $amount, $this->getCurrencyShortName(), $userData);
+            $paymentId,
+            $this->Front()->Router(),
+            $amount,
+            $this->getCurrencyShortName(),
+            $userData
+        );
 
         $request = new Payone_Api_Request_Genericpayment($expressCheckoutRequestData);
 
         $builder = $this->moptPayone__serviceBuilder;
         $service = $builder->buildServicePaymentGenericpayment();
         $service->getServiceProtocol()->addRepository(Shopware()->Models()->getRepository(
-                        'Shopware\CustomModels\MoptPayoneApiLog\MoptPayoneApiLog'
+            'Shopware\CustomModels\MoptPayoneApiLog\MoptPayoneApiLog'
         ));
 
         // Response with new workorderid and redirect-url to paypal
@@ -56,7 +61,7 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
 
     /**
      * get plugin bootstrap
-     * 
+     *
      * @return plugin
      */
     protected function Plugin()
@@ -79,14 +84,20 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
         $amount = $this->getBasketAmount($userData);
 
         $expressCheckoutRequestData = $paramBuilder->buildPayPalExpressCheckoutDetails(
-                $paymentId, $this->Front()->Router(), $amount, $this->getCurrencyShortName(), $userData, $session->moptPaypalEcsWorkerId);
+            $paymentId,
+            $this->Front()->Router(),
+            $amount,
+            $this->getCurrencyShortName(),
+            $userData,
+            $session->moptPaypalEcsWorkerId
+        );
 
         $request = new Payone_Api_Request_Genericpayment($expressCheckoutRequestData);
 
         $builder = $this->moptPayone__serviceBuilder;
         $service = $builder->buildServicePaymentGenericpayment();
         $service->getServiceProtocol()->addRepository(Shopware()->Models()->getRepository(
-                        'Shopware\CustomModels\MoptPayoneApiLog\MoptPayoneApiLog'
+            'Shopware\CustomModels\MoptPayoneApiLog\MoptPayoneApiLog'
         ));
 
         $response = $service->request($request);
@@ -120,8 +131,7 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
             $sTaxFree = false;
             if (!empty($userData['additional']['countryShipping']['taxfree'])) {
                 $sTaxFree = true;
-            } elseif (
-                    !empty($userData['additional']['countryShipping']['taxfree_ustid']) && !empty($userData['billingaddress']['ustid'])
+            } elseif (!empty($userData['additional']['countryShipping']['taxfree_ustid']) && !empty($userData['billingaddress']['ustid'])
             ) {
                 $sTaxFree = true;
             }
@@ -191,7 +201,7 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
     }
 
     /**
-     * create / register user without login 
+     * create / register user without login
      */
     protected function createUserWithoutAccount($personalData, $session, $paymentId)
     {
@@ -278,7 +288,7 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
 
     /**
      * get user-data as array from response
-     * 
+     *
      * @param array $personalData
      * @return array
      */
@@ -335,11 +345,11 @@ class Shopware_Controllers_Frontend_MoptPaymentEcs extends Shopware_Controllers_
         $sqlPayment = "UPDATE s_user SET paymentID = ? WHERE id = ?";
 
         Shopware()->Db()->query(
-                $sqlPayment, array(
+            $sqlPayment,
+            array(
             $paymentId,
             $userId
                 )
         );
     }
-
 }

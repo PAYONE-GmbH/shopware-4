@@ -2,7 +2,7 @@
 
 /**
  * backend controller for payone paypal button editing
- * 
+ *
  * $Id: $
  */
 class Shopware_Controllers_Backend_MoptPayonePaypalOld extends Shopware_Controllers_Backend_ExtJs
@@ -1067,5 +1067,4 @@ class Shopware_Controllers_Backend_MoptPayonePaypalOld extends Shopware_Controll
 
         return $fields;
     }
-    
 }

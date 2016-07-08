@@ -37,19 +37,19 @@ class Payone_Api_Request_Capture extends Payone_Api_Request_Abstract
     /**
      * @var string
      */
-    protected $txid = NULL;
+    protected $txid = null;
     /**
      * @var int
      */
-    protected $sequencenumber = NULL;
+    protected $sequencenumber = null;
     /**
      * @var int
      */
-    protected $amount = NULL;
+    protected $amount = null;
     /**
      * @var string
      */
-    protected $currency = NULL;
+    protected $currency = null;
 
     /**
      * @var Payone_Api_Request_Parameter_Capture_Business
@@ -59,6 +59,11 @@ class Payone_Api_Request_Capture extends Payone_Api_Request_Abstract
      * @var Payone_Api_Request_Parameter_Invoicing_Transaction
      */
     protected $invoicing = null;
+
+    /**
+     * @var Payone_Api_Request_Parameter_Paydata_Paydata
+     */
+    protected $paydata = null;
 
     /**
      * @var string
@@ -175,5 +180,22 @@ class Payone_Api_Request_Capture extends Payone_Api_Request_Abstract
     public function setNarrativeText($narrative_text)
     {
         $this->narrative_text = $narrative_text;
+    }
+    
+    /**
+     * @param Payone_Api_Request_Parameter_Paydata_Paydata $paydata
+     */
+    public function setPaydata($paydata)
+    {
+        $this->paydata = $paydata;
+    }
+ 
+    /**
+     *
+     * @return Payone_Api_Request_Parameter_Paydata_Paydata
+     */
+    public function getPaydata()
+    {
+        return $this->paydata;
     }
 }

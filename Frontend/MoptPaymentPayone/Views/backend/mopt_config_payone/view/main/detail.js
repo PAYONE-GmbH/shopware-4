@@ -139,32 +139,34 @@ initComponent: function() {
     if (field === 'debit') {
       fieldset.items.getAt(8).disable();
       fieldset.items.getAt(9).enable();
+      fieldset.items.getAt(10).enable();
+      fieldset.items.getAt(11).enable();      
     } else {
       fieldset.items.getAt(8).disable();
       fieldset.items.getAt(9).disable();
-    };
-    if (field === 'klarnaInstallment') {
-      fieldset.items.getAt(13).enable();
-      fieldset.items.getAt(14).enable();
-    }
-    else
-    {
-      fieldset.items.getAt(13).disable();
-      fieldset.items.getAt(14).disable();
+      fieldset.items.getAt(10).disable();
+      fieldset.items.getAt(11).disable();      
     };
     if (field === 'klarna') {
-      fieldset.items.getAt(13).enable();
+      fieldset.items.getAt(15).enable();
     }
     else
     {
-        if(field !== 'klarnaInstallment')
-        {
-            fieldset.items.getAt(13).disable();
-        }
+      fieldset.items.getAt(15).disable();
     };
     if (field === 'paypal') {
-      fieldset.items.getAt(16).enable();
+      fieldset.items.getAt(17).enable();
     };
+    if ( field === 'payolution_debitnote' || field === 'payolution_invoice') {
+        fieldset.items.getAt(19).enable();
+        fieldset.items.getAt(20).enable();
+    } 
+    else
+    {
+        fieldset.items.getAt(19).disable();
+        fieldset.items.getAt(20).disable();  
+    }         
+    ;     
   },
   
   /**
@@ -840,8 +842,34 @@ initComponent: function() {
       },
       {
         xtype: 'combobox',
+        fieldLabel: '{s name=fieldlabel/showBIC}Zusätzlich zur IBAN auch BIC abfragen?{/s}',
+        helpText: '{s name=fieldlabelhelp/showBIC}Zusätzlich zur IBAN auch BIC abfragen?{/s}',
+        name: 'showBic',
+        store: me.data.yesno,
+        queryMode: 'local',
+        displayField: 'display',
+        valueField: 'value',
+        allowBlank: false,
+        disabled: true,
+        labelWidth: 200
+      }, 
+      {
+        xtype: 'combobox',
+        fieldLabel: '{s name=fieldlabel/showSofortIbanBic}Bei Sofortüberweisung IBAN und BIC abfragen?{/s}',
+        helpText: '{s name=fieldlabelhelp/showSofortIbanBic}Bei Sofortüberweisung IBAN und BIC abfragen?{/s}',
+        name: 'showSofortIbanBic',
+        store: me.data.yesno,
+        queryMode: 'local',
+        displayField: 'display',
+        valueField: 'value',
+        allowBlank: false,
+        disabled: false,
+        labelWidth: 200
+      },       
+      {
+        xtype: 'combobox',
         fieldLabel: '{s name=fieldlabel/mandateActive}Mandatserteilung aktivieren?{/s}',
-        helpText: '{s name=fieldlabelhelp/mandateActive}Die Mandatserteilung erfolgt mit dem kosteplfichtigen Request -managemandate-. Dieser Request beinhaltet einen bankaccountcheck. Allerdings ist hier keine Abfrage der POS-Sperrliste möglich.{/s}',
+        helpText: '{s name=fieldlabelhelp/mandateActive}Die Mandatserteilung erfolgt mit dem kostenpflichtigen Request -managemandate-. Dieser Request beinhaltet einen bankaccountcheck. Allerdings ist hier keine Abfrage der POS-Sperrliste möglich.{/s}',
         name: 'mandateActive',
         store: me.data.yesno,
         queryMode: 'local',
@@ -869,15 +897,6 @@ initComponent: function() {
         fieldLabel: '{s name=fieldlabel/klarnaStoreId}Klarna Store-ID{/s}',
         helpText: '{s name=fieldlabelhelp/klarnaStoreId}Klarna Store-ID{/s}',
         name: 'klarnaStoreId',
-        allowBlank: true,
-        disabled: true,
-        labelWidth: 200
-      },
-      {
-        xtype: 'textfield',
-        fieldLabel: '{s name=fieldlabel/klarnaCampaignCode}Klarna Kampangen Code{/s}',
-        helpText: '{s name=fieldlabelhelp/klarnaCampaignCode}Klarna Kampangen Code{/s}',
-        name: 'klarnaCampaignCode',
         allowBlank: true,
         disabled: true,
         labelWidth: 200
@@ -914,7 +933,29 @@ initComponent: function() {
         name: 'creditcardMinValid',
         allowBlank: false,
         labelWidth: 200
-      }
+      },
+      {
+        xtype: 'textfield',
+        fieldLabel: '{s name=fieldlabel/payolutionCompanyName}Payolution Firmenname{/s}',
+        helpText: '{s name=fieldlabelhelp/payolutionCompanyName}Payolution Firmenname{/s}',
+        name: 'payolutionCompanyName',
+        allowBlank: true,
+        disabled: true,
+        labelWidth: 200
+      },
+      {
+        xtype: 'combobox',
+        fieldLabel: '{s name=fieldlabel/payolutionB2bMode}Payolution B2B Modus{/s}',
+        helpText: '{s name=fieldlabelhelp/payolutionB2bMode}Payolution B2B Modus{/s}',
+        name: 'payolutionB2bmode',
+        store: me.data.yesno,
+        queryMode: 'local',
+        displayField: 'display',
+        valueField: 'value',
+        allowBlank: false,
+        disabled: true,
+        labelWidth: 200
+      }       
     ];
   },
   
