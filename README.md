@@ -1,3 +1,5 @@
+:warning: Please note: Shopware 4 is deprecated, and so is this plug-in. No updates will be performed.
+
 # PAYMENT FOR YOUR SHOPWARE-SHOP
 The PAYONE payment extension for Shopware is already certified by shoplupe for its Usability, but we are willing to do an even better job in questions of functions, security or quality of code. The community here on Github is a great help for that and we are happy about your participation. Take a look at our released version and send us commits or other feedback to take care for the best possible solution.
 
